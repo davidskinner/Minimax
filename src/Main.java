@@ -25,6 +25,7 @@ public class Main {
 
         log("");
         log("Hello, welcome to the most annoying game of Tic-Tac-Toe!");
+        log("To place your move, enter two numbers from the board as they are given. Such as, 23");
         log("");
 
         boolean hoomanTurn = false;
@@ -78,7 +79,7 @@ public class Main {
             }
             else
             {
-                log("no one has won");
+//                log("no one has won");
             }
 
             board.printBoard();
