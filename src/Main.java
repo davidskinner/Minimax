@@ -3,8 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void log(String v)
-    {
+    public static void log(String v) {
         System.out.println(v);
     }
 
@@ -32,62 +31,49 @@ public class Main {
         String winner = "winnerString";
 
         //choose who goes first
-        if(r.nextFloat() < 0.5)
-        {
+        if (r.nextFloat() < 0.5) {
             //human first
             hoomanTurn = true;
-        }
-        else
-        {
+        } else {
             //computer first
             hoomanTurn = false;
         }
 
         //main loop
-        while(!gameOver)
-        {
-            if(hoomanTurn)
-            {
+        while (!gameOver) {
+            if (hoomanTurn) {
                 //move and adjust the board
                 log("Your turn, hooman.");
-                String userEntry  = scanner.next();
+                String userEntry = scanner.next();
                 Move hoomanMove = new Move();
                 hoomanMove.row = Integer.valueOf(String.valueOf(userEntry.charAt(0)));
                 hoomanMove.column = Integer.valueOf(String.valueOf(userEntry.charAt(1)));
-                board.applyMove(hoomanMove,hoomanTurn);
+                board.applyMove(hoomanMove, hoomanTurn);
                 hoomanTurn = false;
-            }
-            else
-            {
+            } else {
                 log("Computer turn");
-                Move bestMove = board.getmmMove(board.board);
-                board.applyMove(bestMove,hoomanTurn);
-                hoomanTurn =true;
+                Move bestMove = board.getMiniMaxMove(board.board);
+                board.applyMove(bestMove, hoomanTurn);
+                hoomanTurn = true;
             }
 
             //computer wins
-            if(board.evaluate(board.board) == 10)
-            {
+            if (board.evaluate(board.board) == 10) {
                 winner = "computer";
                 break;
             }
             //hooman wins
-            else if(board.evaluate(board.board) == -10)
-            {
+            else if (board.evaluate(board.board) == -10) {
                 winner = "hooman";
                 break;
-            }
-            else
-            {
+            } else {
 //                log("no one has won");
             }
 
             board.printBoard();
         }
-
         log("The winner is : " + winner);
         board.printBoard();
-
         scanner.close();
     }
 }
