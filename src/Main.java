@@ -14,20 +14,15 @@ public class Main {
         System.out.println(v);
     }
 
-    // This function returns true if there are moves
-// remaining on the board. It returns false if
-// there are no moves left to play.
-
-
-
-
-
-
-
-
-
 
     public static void main(String[] args) {
+
+        //decide who goes first
+        //hooman: choose a space
+        //place move
+        //else comp do minimax
+        //place move
+
 
         Random r = new Random();
         boolean gameOver = false;
@@ -37,11 +32,11 @@ public class Main {
         board.initBoard();
         board.printBoard();
         log("");
-        log("Hello, welcome to the most annoying Tic-Tac-Toe game ever!");
+        log("Hello, welcome to Tic-Tac-Toe!");
         log("");
 
-        boolean hoomanTurn;
-        String winner;
+        boolean hoomanTurn = false;
+        String winner = "winnerString";
 
 
         //choose who goes first
@@ -49,51 +44,67 @@ public class Main {
         {
             //human first
             hoomanTurn = true;
-            log("hooman");
+            log("hooman turn");
         }
         else
         {
             //computer first
             hoomanTurn = false;
-            log("computer");
+            log("computer turn");
         }
 
         //make a board
         //decide who goes first
         //pass board into loop
 
+
         while(!gameOver)
         {
-
-
             if(hoomanTurn)
             {
                 //move and adjust the board
-                log("You are O and it is your turn");
+                log("Your turn, hooman.");
+
                 String userEntry  = scanner.next();
 
+                Move hoomanMove = new Move();
+                hoomanMove.row = Integer.valueOf(String.valueOf(userEntry.charAt(0)));
+                hoomanMove.column = Integer.valueOf(String.valueOf(userEntry.charAt(1)));
+                board.applyMove(hoomanMove,hoomanTurn);
 
-
+                hoomanTurn = false;
+                board.printBoard();
             }
             else
             {
-                log("The computer chose where to go");
-                Move bestMove = board.findBestMove(board.make2Dee());
-                //board at position bestMove.column, bestMove.row changed by findBestMove
-                
+                log("Computer turn");
+                Move bestMove = board.findBestMove(board.board);
+                board.applyMove(bestMove,hoomanTurn);
 
+                hoomanTurn =true;
+                board.printBoard();
             }
 
-            //if(board.checkForVictory)
-            //gameOver = true
-            //winner = board.getVictor
-
-
+            //computer wins
+            if(board.evaluate(board.board) == 10)
+            {
+                winner = "computer";
+                break;
+            }
+            //hooman wins
+            else if(board.evaluate(board.board) == -10)
+            {
+                winner = "hooman";
+                break;
+            }
+            else
+            {
+                log("no one has won");
+            }
         }
 
-        //log("The winner is : " + winner");
+        log("The winner is : " + winner);
+
         scanner.close();
-
-
     }
 }
