@@ -2,17 +2,31 @@ import static java.lang.Math.min;
 
 public class Board {
 
-    char[][] board = new  char[3][3];
-    private char computer = 'X';
-    private char hooman = 'O';
+    String[][] board = new  String[3][3];
+    private String computer = "X";
+    private String hooman = "O";
+
+//    public void initBoard()
+//    {
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                board[i][j] = '_';
+//            }
+//        }
+//    }
 
     public void initBoard()
     {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                board[i][j] = '_';
-            }
-        }
+        board[0][0] = "11";
+        board[0][1] = "12";
+        board[0][2] = "13";
+        board[1][0] = "21";
+        board[1][1] = "22";
+        board[1][2] = "23";
+        board[2][0] = "31";
+        board[2][1] = "32";
+        board[2][2] = "33";
+
     }
 
     public void printBoard()
@@ -27,7 +41,7 @@ public class Board {
     }
 
     // This will return the best possible move for the player
-    Move getmmMove(char board[][])
+    Move getmmMove(String board[][])
     {
         int bestVal = -200;
         Move mmMove = new Move();
@@ -41,15 +55,17 @@ public class Board {
             for (int j = 0; j<3; j++)
             {
                 // Check if cell is empty
-                if (board[i][j] == '_')
+                if (board[i][j].length() > 1)
                 {
+                    String undo = "";
+                    undo = board[i][j];
                     // Make the move
                     board[i][j] = computer;
 
                     int moveVal = minimax(board, 0, false);
 
                     // Undo the move
-                    board[i][j] = '_';
+                    board[i][j] = undo;
 
                     // If the value of the current move is
                     // more than the best value, then update
@@ -70,18 +86,18 @@ public class Board {
     {
         if(hoomanTurn)
         {
-            board[move.row-1][move.column-1] = 'O';
+            board[move.row-1][move.column-1] = hooman;
         }
         else
         {
-            board[move.row][move.column] = 'X';
+            board[move.row][move.column] = computer;
         }
     }
 
     // This is the minimax function. It considers all
     // the possible ways the game can go and returns
     // the value of the board
-    int minimax(char board[][], int depth, boolean isMax)
+    int minimax(String board[][], int depth, boolean isMax)
     {
         int score = evaluate(board);
 
@@ -111,8 +127,10 @@ public class Board {
                 for (int j = 0; j<3; j++)
                 {
                     // Check if cell is empty
-                    if (board[i][j]=='_')
+                    if (board[i][j].length() > 1)
                     {
+                        String undo = "";
+                        undo = board[i][j];
                         // Make the move
                         board[i][j] = computer;
 
@@ -122,7 +140,7 @@ public class Board {
                                 minimax(board, depth+1, !isMax) );
 
                         // Undo the move
-                        board[i][j] = '_';
+                        board[i][j] = undo;
                     }
                 }
             }
@@ -140,8 +158,10 @@ public class Board {
                 for (int j = 0; j<3; j++)
                 {
                     // Check if cell is empty
-                    if (board[i][j]=='_')
+                    if (board[i][j].length() > 1)
                     {
+                        String undo = "";
+                        undo = board[i][j];
                         // Make the move
                         board[i][j] = hooman;
 
@@ -151,7 +171,7 @@ public class Board {
                                 minimax(board, depth+1, !isMax));
 
                         // Undo the move
-                        board[i][j] = '_';
+                        board[i][j] = undo;
                     }
                 }
             }
@@ -160,7 +180,7 @@ public class Board {
     }
 
     // This is the evaluation function
-    int evaluate(char b[][])
+    int evaluate(String b[][])
     {
         // Checking for Rows for X or O victory.
         for (int row = 0; row<3; row++)
@@ -168,7 +188,7 @@ public class Board {
             if (b[row][0]==b[row][1] &&
                     b[row][1]==b[row][2])
             {
-                if (b[row][0]==computer)
+                if (b[row][0] == computer)
                     return +10;
                 else if (b[row][0]==hooman)
                     return -10;
@@ -210,11 +230,11 @@ public class Board {
         return 0;
     }
 
-    public boolean isMovesLeft(char board[][])
+    public boolean isMovesLeft(String board[][])
     {
         for (int i = 0; i<3; i++)
             for (int j = 0; j<3; j++)
-                if (board[i][j]=='_')
+                if (board[i][j].length() > 1)
                     return true;
         return false;
     }
