@@ -27,12 +27,12 @@ public class Board {
     }
 
     // This will return the best possible move for the player
-    Move findBestMove(char board[][])
+    Move getmmMove(char board[][])
     {
-        int bestVal = -1000;
-        Move bestMove = new Move();
-        bestMove.row = -1;
-        bestMove.column = -1;
+        int bestVal = -200;
+        Move mmMove = new Move();
+        mmMove.row = -1;
+        mmMove.column = -1;
         // Traverse all cells, evaluate minimax function for
         // all empty cells. And return the cell with optimal
         // value.
@@ -56,17 +56,14 @@ public class Board {
                     // best/
                     if (moveVal > bestVal)
                     {
-                        bestMove.row = i;
-                        bestMove.column = j;
+                        mmMove.row = i;
+                        mmMove.column = j;
                         bestVal = moveVal;
                     }
                 }
             }
         }
-
-//        Main.log("The value of the best Move is : " + String.valueOf(bestVal));
-
-        return bestMove;
+        return mmMove;
     }
 
     public void applyMove(Move move, boolean hoomanTurn)
