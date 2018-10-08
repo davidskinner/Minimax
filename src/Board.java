@@ -21,13 +21,13 @@ public class Board {
 
     public void printBoard()
     {
-        System.out.println("/--------------\\");
-        System.out.println(" " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " ");
-        System.out.println("---------------");
-        System.out.println(" " + board[1][0] + " | " + board[1][1] + " | " + board[1][2] + " ");
-        System.out.println("---------------");
-        System.out.println(" " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " ");
-        System.out.println("/--------------\\");
+        System.out.println();
+        System.out.println(" " + board[0][0] + " " + board[0][1] + " " + board[0][2] + " ");
+        System.out.println("----------");
+        System.out.println(" " + board[1][0] + " " + board[1][1] + " " + board[1][2] + " ");
+        System.out.println("----------");
+        System.out.println(" " + board[2][0] + " " + board[2][1] + " " + board[2][2] + " ");
+        System.out.println();
     }
 
     Move getmmMove(String board[][])
@@ -43,11 +43,11 @@ public class Board {
             {
                 if (board[i][j].length() > 1)
                 {
-                    String undo = "";
-                    undo = board[i][j];
+
+                    String undo = board[i][j];
                     board[i][j] = computer;
 
-                    int moveVal = minimax(board, 0, false);
+                    int moveVal = mm(board, 0, false);
 
                     board[i][j] = undo;
 
@@ -75,7 +75,7 @@ public class Board {
         }
     }
 
-    int minimax(String board[][], int depth, boolean isMax)
+    private int mm(String board[][], int depth, boolean isMax)
     {
         int score = evaluate(board);
 
@@ -90,20 +90,18 @@ public class Board {
 
         if (isMax)
         {
-            int best = -1000;
-
+            int best = -200;
             for (int i = 0; i<3; i++)
             {
                 for (int j = 0; j<3; j++)
                 {
                     if (board[i][j].length() > 1)
                     {
-                        String undo = "";
-                        undo = board[i][j];
+                        String undo = board[i][j];
                         board[i][j] = computer;
 
                         best = Math.max( best,
-                                minimax(board, depth+1, !isMax) );
+                                mm(board, depth+1, !isMax) );
 
                         board[i][j] = undo;
                     }
@@ -127,7 +125,7 @@ public class Board {
                         board[i][j] = hooman;
 
                         best = min(best,
-                                minimax(board, depth+1, !isMax));
+                                mm(board, depth+1, !isMax));
 
                         board[i][j] = undo;
                     }
@@ -141,42 +139,42 @@ public class Board {
     {
         for (int row = 0; row<3; row++)
         {
-            if (b[row][0]==b[row][1] &&
-                    b[row][1]==b[row][2])
+            if (b[row][0].equals(b[row][1]) &&
+                    b[row][1].equals(b[row][2]))
             {
-                if (b[row][0] == computer)
+                if (b[row][0].equals(computer))
                     return +10;
-                else if (b[row][0]==hooman)
+                else if (b[row][0].equals(hooman))
                     return -10;
             }
         }
 
         for (int col = 0; col<3; col++)
         {
-            if (b[0][col]==b[1][col] &&
-                    b[1][col]==b[2][col])
+            if (b[0][col].equals(b[1][col]) &&
+                    b[1][col].equals(b[2][col]))
             {
-                if (b[0][col]==computer)
+                if (b[0][col].equals(computer))
                     return +10;
 
-                else if (b[0][col]==hooman)
+                else if (b[0][col].equals(hooman))
                     return -10;
             }
         }
 
-        if (b[0][0]==b[1][1] && b[1][1]==b[2][2])
+        if (b[0][0].equals(b[1][1]) && b[1][1].equals(b[2][2]))
         {
-            if (b[0][0]==computer)
+            if (b[0][0].equals(computer))
                 return +10;
-            else if (b[0][0]==hooman)
+            else if (b[0][0].equals(hooman))
                 return -10;
         }
 
-        if (b[0][2]==b[1][1] && b[1][1]==b[2][0])
+        if (b[0][2].equals(b[1][1]) && b[1][1].equals(b[2][0]))
         {
-            if (b[0][2]==computer)
+            if (b[0][2].equals(computer))
                 return +10;
-            else if (b[0][2]==hooman)
+            else if (b[0][2].equals(hooman))
                 return -10;
         }
 
