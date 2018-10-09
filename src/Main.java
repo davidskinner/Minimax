@@ -42,7 +42,6 @@ public class Main {
         //main loop
         while (!gameOver) {
             if (hoomanTurn) {
-                //move and adjust the board
                 log("Your turn, hooman.");
                 String userEntry = scanner.next();
                 Move hoomanMove = new Move();
@@ -58,16 +57,14 @@ public class Main {
             }
 
             //computer wins
-            if (board.evaluate(board.board) == 10) {
+            if (board.checkForWinner(board.board) == 10) {
                 winner = "computer";
                 break;
             }
             //hooman wins
-            else if (board.evaluate(board.board) == -10) {
+            if (board.checkForWinner(board.board) == -10) {
                 winner = "hooman";
                 break;
-            } else {
-//                log("no one has won");
             }
 
             board.printBoard();
