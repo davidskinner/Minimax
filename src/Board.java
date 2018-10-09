@@ -1,6 +1,6 @@
 import static java.lang.Math.min;
-
 public class Board {
+    // **stackoverflow and geeksforgeeks citation** //
 
     String[][] board = new String[3][3];
     private String computer = "O";
@@ -69,9 +69,10 @@ public class Board {
 
     //operates on one board and then undoes it
     //could also be done by passing in a new Board() w/ copy constructor
-    private int miniMax(String board[][], int depth, boolean maximizerVal) {
+    private int miniMax(String board[][], int depth, boolean maximizingPlayer) {
         int score = checkForWinner(board);
 
+        //10,because it is greater than 9
         //computer
         if (score == 10)
             return score - depth;//minus depth for best move
@@ -83,17 +84,19 @@ public class Board {
         if (!stillMove(board))
             return 0;
 
-        if (maximizerVal) {
+        if (maximizingPlayer) {
 
             int best = -200;
+
+            //loop through the board
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
                     if (board[i][j].length() > 1) {
                         String undo = board[i][j];
                         board[i][j] = computer;
 
-                        //recursive branching, increase depth
-                        best = Math.max(best, miniMax(board, depth + 1, !maximizerVal));
+                        //recursive branching, increase depth, toggles maximizingPlayer
+                        best = Math.max(best, miniMax(board, depth + 1, !maximizingPlayer));
 
                         board[i][j] = undo;
                     }
@@ -104,14 +107,16 @@ public class Board {
 
             //not maximizer val
             int val = 200;
+
+            //loop through the board
             for (int i = 0; i < board.length; i++) {
                 for (int j = 0; j < board.length; j++) {
                     if (board[i][j].length() > 1) {
                         String undo = board[i][j];
                         board[i][j] = hooman;
 
-                        //recursive branching
-                        val = min(val, miniMax(board, depth + 1, !maximizerVal));
+                        //recursive branching, increase depth, toggles maximizingPlayer
+                        val = min(val, miniMax(board, depth + 1, !maximizingPlayer));
 
                         board[i][j] = undo;
                     }
@@ -123,7 +128,7 @@ public class Board {
 
     int checkForWinner(String b[][]) {
 
-
+        //check for winner in rows
         for (int row = 0; row < board.length; row++) {
             if (b[row][0].equals(b[row][1]) &&
                     b[row][1].equals(b[row][2])) {
@@ -134,6 +139,7 @@ public class Board {
             }
         }
 
+        //check for winner in columns
         for (int col = 0; col < board.length; col++) {
             if (b[0][col].equals(b[1][col]) &&
                     b[1][col].equals(b[2][col])) {
@@ -145,6 +151,7 @@ public class Board {
             }
         }
 
+        //check for winner in diagonal
         if (b[0][0].equals(b[1][1]) && b[1][1].equals(b[2][2])) {
             if (b[0][0].equals(computer))
                 return +10;
@@ -152,17 +159,17 @@ public class Board {
                 return -10;
         }
 
+        //check for winner in diagonal
         if (b[0][2].equals(b[1][1]) && b[1][1].equals(b[2][0])) {
             if (b[0][2].equals(computer))
                 return +10;
             else if (b[0][2].equals(hooman))
                 return -10;
         }
-
         return 0;
     }
 
-    private boolean stillMove(String board[][]) {
+    public boolean stillMove(String board[][]) {
         for (int i = 0; i < board.length; i++)
             for (int j = 0; j < board.length; j++)
                 if (board[i][j].length() > 1)
@@ -170,5 +177,6 @@ public class Board {
         return false;
     }
 }
+
 
 

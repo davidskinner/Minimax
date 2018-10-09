@@ -28,7 +28,7 @@ public class Main {
         log("");
 
         boolean hoomanTurn = false;
-        String winner = "winnerString";
+        String winner = "";
 
         //choose who goes first
         if (r.nextFloat() < 0.5) {
@@ -67,9 +67,18 @@ public class Main {
                 break;
             }
 
+            //you tied
+            if(!board.stillMove(board.board)){
+                break;
+            }
+
             board.printBoard();
         }
+        if(!winner.equals(""))
         log("The winner is : " + winner);
+        else
+        log("You Tied!");
+
         board.printBoard();
         scanner.close();
     }
