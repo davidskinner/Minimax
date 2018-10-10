@@ -27,28 +27,55 @@ public class Main {
         log("To place your move, enter two numbers from the board as they are given. Such as, 23");
         log("");
 
-        boolean hoomanTurn = false;
+        boolean hoomanTurn = true;
         String winner = "";
 
-        //choose who goes first
-        if (r.nextFloat() < 0.5) {
-            //human first
-            hoomanTurn = true;
-        } else {
-            //computer first
-            hoomanTurn = false;
-        }
+//        //choose who goes first
+//        if (r.nextFloat() < 0.5) {
+//            //human first
+//            hoomanTurn = true;
+//        } else {
+//            //computer first
+//            hoomanTurn = false;
+//        }
 
         //main loop
         while (!gameOver) {
             if (hoomanTurn) {
                 log("Your turn, hooman.");
-                String userEntry = scanner.next();
-                Move hoomanMove = new Move();
-                hoomanMove.row = Integer.valueOf(String.valueOf(userEntry.charAt(0)));
-                hoomanMove.column = Integer.valueOf(String.valueOf(userEntry.charAt(1)));
-                board.applyMove(hoomanMove, hoomanTurn);
-                hoomanTurn = false;
+                boolean  validMove = false;
+
+                //take input until it is a valid input
+                while(!validMove)
+                {
+                    String userEntry = String.valueOf(scanner.next());
+                    Move hoomanMove = new Move();
+
+                    if(userEntry.length() != 2)
+                    {
+                        //invalid move
+                        log("make sure you enter 2 numbers");
+                        validMove = false;
+                    }
+                    else
+                    {
+                        hoomanMove.row = Integer.valueOf(String.valueOf(userEntry.charAt(0)));
+                        hoomanMove.column = Integer.valueOf(String.valueOf(userEntry.charAt(1)));
+                        log(String.valueOf(userEntry.length()));
+                        if(board.board[hoomanMove.row-1][hoomanMove.column-1].length() == 1)
+                        {
+                            log("invalid move");
+                            validMove = false;
+                        }
+                        else
+                        {
+                            validMove = true;
+                            board.applyMove(hoomanMove, hoomanTurn);
+                            hoomanTurn = false;
+                            break;
+                        }
+                    }
+                }
             } else {
                 log("Computer turn");
                 Move bestMove = board.getMiniMaxMove(board.board);
