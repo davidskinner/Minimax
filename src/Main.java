@@ -57,6 +57,12 @@ public class Main {
                         log("make sure you enter 2 numbers");
                         validMove = false;
                     }
+                    else if(Integer.valueOf(String.valueOf(userEntry.charAt(0))) > 3 && Integer.valueOf(String.valueOf(userEntry.charAt(1))) > 3 )
+                    {
+                        //you cant enter numbers that large
+                        log("too large of numbers");
+                        validMove = false;
+                    }
                     else
                     {
                         hoomanMove.row = Integer.valueOf(String.valueOf(userEntry.charAt(0)));
